@@ -1,0 +1,7 @@
+tokenizer,id,vocab_size,avg_tokens_per_word,avg_tokens_per_sentence,tokens_per_char,embedding_params,embedding_ratio_est,bpc_from_ppl_formula
+BPE-32K,bpe_32k,32000,1.348,80.3895,0.268178,16384000,0.394259,log2(PPL) * tokens_per_char
+BPE-16K,bpe_16k,16000,1.4797,88.244,0.29438,8192000,0.245531,log2(PPL) * tokens_per_char
+BPE-8K,bpe_8k,8000,1.6553,98.716,0.329315,4096000,0.139946,log2(PPL) * tokens_per_char
+Morph-BPE-16K,morph_bpe_16k,16000,1.7635,105.17,0.350845,8192000,0.245531,log2(PPL) * tokens_per_char
+Morph-BPE-8K,morph_bpe_8k,8000,1.9186,114.42,0.381703,4096000,0.139946,log2(PPL) * tokens_per_char
+Char-Level,char,188,6.063,361.5765,1.206212,96256,0.003809,log2(PPL) * tokens_per_char

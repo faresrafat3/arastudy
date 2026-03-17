@@ -1,0 +1,14 @@
+{
+    "recommendations": [
+        "GitHub.copilot",
+        "GitHub.copilot-chat",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-toolsai.jupyter",
+        "charliermarsh.ruff",
+        "njpwerner.autodocstring",
+        "eamodio.gitlens",
+        "gruntfuggly.todo-tree",
+        "aaron-bond.better-comments"
+    ]
+}

@@ -1,0 +1,62 @@
+experiment:
+  name: "exp01_arabic_tokenization_impact"
+  seed: 42
+
+paths:
+  raw_glob: "data/raw/*.txt"
+  cleaned_corpus: "data/processed/exp01_cleaned.txt"
+  split_dir: "data/splits/exp01"
+  tokenizer_dir: "results/tokenizers/exp01"
+  analysis_dir: "results/logs/exp01"
+
+cleaning:
+  min_words: 20
+  deduplicate: true
+  keep_diacritics: false
+  normalize_arabic: true
+
+split:
+  train_ratio: 0.90
+  valid_ratio: 0.05
+  test_ratio: 0.05
+
+analysis:
+  sample_sentences: 1000
+  hidden_dim: 512
+
+model:
+  n_layers: 6
+  hidden_dim: 512
+  feedforward_dim: 2048
+
+tokenizers:
+  - id: "bpe_32k"
+    label: "BPE-32K"
+    model_type: "bpe"
+    vocab_size: 32000
+    use_morph_segmentation: false
+  - id: "bpe_16k"
+    label: "BPE-16K"
+    model_type: "bpe"
+    vocab_size: 16000
+    use_morph_segmentation: false
+  - id: "bpe_8k"
+    label: "BPE-8K"
+    model_type: "bpe"
+    vocab_size: 8000
+    use_morph_segmentation: false
+  - id: "morph_bpe_16k"
+    label: "Morph-BPE-16K"
+    model_type: "bpe"
+    vocab_size: 16000
+    use_morph_segmentation: true
+  - id: "morph_bpe_8k"
+    label: "Morph-BPE-8K"
+    model_type: "bpe"
+    vocab_size: 8000
+    use_morph_segmentation: true
+  - id: "char"
+    label: "Char-Level"
+    model_type: "char"
+    vocab_size: 200
+    use_morph_segmentation: false

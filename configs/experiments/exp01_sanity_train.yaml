@@ -1,0 +1,46 @@
+experiment:
+  name: "exp01_phase2a_sanity"
+  seed: 42
+
+paths:
+  split_dir: "data/splits/exp01"
+  tokenizer_dir: "results/tokenizers/exp01"
+  output_dir: "results/checkpoints/exp01_sanity"
+  log_dir: "results/logs/exp01_sanity"
+
+model:
+  dim: 256
+  n_layers: 4
+  n_heads: 4
+  max_seq_len: 128
+  dropout: 0.1
+
+training:
+  steps: 300
+  eval_every: 50
+  batch_size: 8
+  grad_accum_steps: 2
+  learning_rate: 0.0003
+  weight_decay: 0.1
+  betas: [0.9, 0.95]
+  warmup_steps: 50
+  use_amp: true
+
+generation:
+  normalize_like_corpus: true
+  tokenization_config: "configs/experiments/exp01_tokenization.yaml"
+  disallow_unk_token: true
+
+tokenizers:
+  - id: "bpe_32k"
+    label: "BPE-32K"
+  - id: "bpe_16k"
+    label: "BPE-16K"
+  - id: "bpe_8k"
+    label: "BPE-8K"
+  - id: "morph_bpe_16k"
+    label: "Morph-BPE-16K"
+  - id: "morph_bpe_8k"
+    label: "Morph-BPE-8K"
+  - id: "char"
+    label: "Char-Level"

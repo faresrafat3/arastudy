@@ -1,0 +1,43 @@
+experiment:
+  name: "exp01_phase2c_full"
+  seed: 42
+
+paths:
+  split_dir: "data/splits/phase2b"
+  tokenizer_dir: "results/tokenizers/phase2b"
+  output_dir: "results/checkpoints/exp01_full"
+  log_dir: "results/logs/exp01_full"
+  tokenization_config: "configs/experiments/exp01_phase2b_data.yaml"
+
+model:
+  dim: 512
+  n_layers: 6
+  n_heads: 8
+  max_seq_len: 512
+  dropout: 0.1
+
+training:
+  steps: 20000
+  eval_every: 500
+  save_every: 2000
+  batch_size: 16
+  grad_accum_steps: 4
+  learning_rate: 0.0003
+  weight_decay: 0.1
+  betas: [0.9, 0.95]
+  warmup_steps: 1000
+  use_amp: true
+  early_stopping_patience_steps: 2000
+  eval_max_batches: 80
+
+generation:
+  every_steps: 5000
+  max_new_tokens: 120
+  temperature: 0.9
+  top_k: 40
+  prompt_file: "generation_benchmark_prompts.md"
+  normalize_like_corpus: true
+  disallow_unk_token: true
+
+run:
+  tokenizer_id: "morph_bpe_8k"

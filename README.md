@@ -2,7 +2,7 @@
 
 [![Paper](https://img.shields.io/badge/Paper-coming%20soon-blue)](#citation)
 [![Models on HF](https://img.shields.io/badge/Models-Hugging%20Face-yellow)](#trained-models)
-[![Dataset on HF](https://img.shields.io/badge/Dataset-Hugging%20Face-orange)](#trained-models)
+[![Dataset on HF](https://img.shields.io/badge/Dataset-Hugging%20Face-orange)](https://huggingface.co/datasets/faresrafat/arastudy-arabic-wikipedia-cleaned)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-green.svg)](#license)
 
 ## TL;DR
@@ -63,9 +63,9 @@ python generate.py --model bpe_16k --prompt "في يوم من الايام"
 
 | Model | HF Link | Size | Recommended? |
 |---|---|---:|---|
-| AraStudy-BPE16K | [coming soon](#) | 28.9M | ⭐ Best generation |
-| AraStudy-BPE32K | [coming soon](#) | 37.1M | Best BPC |
-| AraStudy-Morph8K | [coming soon](#) | 24.8M | Smallest + good |
+| AraStudy-BPE16K | [HF](https://huggingface.co/faresrafat/AraStudy-BPE16K-29M) | 28.9M | ⭐ Best generation |
+| AraStudy-BPE32K | [HF](https://huggingface.co/faresrafat/AraStudy-BPE32K-37M) | 37.1M | Best BPC |
+| AraStudy-Morph8K | [HF](https://huggingface.co/faresrafat/AraStudy-Morph8K-25M) | 24.8M | Smallest + good |
 
 ## Fair Pair Comparison
 

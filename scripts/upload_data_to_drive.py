@@ -53,8 +53,13 @@ def make_archive(staging: Path, out_dir: Path, name: str) -> Path:
 def write_manifest(
     out_dir: Path, archive: Path, mode: str, copied: dict[str, str]
 ) -> None:
+    try:
+        archive_display = str(archive.relative_to(ROOT))
+    except ValueError:
+        archive_display = str(archive)
+
     manifest = {
-        "archive": str(archive),
+        "archive": archive_display,
         "mode": mode,
         "size_bytes": archive.stat().st_size,
         "size_mb": round(archive.stat().st_size / (1024 * 1024), 2),

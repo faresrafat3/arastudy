@@ -7,11 +7,15 @@ set -euo pipefail
 TOKENIZERS=("bpe_16k" "bpe_32k" "morph_bpe_8k")
 SEEDS=(42 123 2024)
 CONFIG="configs/experiments/exp02_multiseed.yaml"
-PYTHON_BIN="${PYTHON_BIN:-/home/fares/bug-hunter/.venv/bin/python}"
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
+PYTHON_BIN="${PYTHON_BIN:-${ROOT_DIR}/.venv/bin/python}"
 
 if [[ ! -x "$PYTHON_BIN" ]]; then
   PYTHON_BIN="python"
 fi
+
+cd "$ROOT_DIR"
 
 run_one() {
   local tokenizer="$1"

@@ -1,7 +1,7 @@
 # AraStudy Project Configuration
 
 project:
-  name: "AraStudy-30M"
+  name: "AraStudy-Phase3"
   seed: 42
   output_dir: "results/"
   phase: "phase3_fresh_start"
@@ -61,5 +61,5 @@ curriculum:
 
 wandb:
   enabled: false
-  project: "AraStudy"
+  project: "arastudy-phase3"
   entity: null # Your username

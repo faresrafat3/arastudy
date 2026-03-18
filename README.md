@@ -1,4 +1,4 @@
-# 🔬 AraStudy: How Tokenization Shapes Ultra-Small Arabic Language Models
+# 🔬 AraStudy (Phase 3 Fresh Start): Ultra-Small Arabic Language Models
 
 [![Paper](https://img.shields.io/badge/Paper-coming%20soon-blue)](#citation)
 [![Models on HF](https://img.shields.io/badge/Models-Hugging%20Face-yellow)](#trained-models)

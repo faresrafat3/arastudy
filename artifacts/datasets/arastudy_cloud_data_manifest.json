@@ -1,0 +1,90 @@
+{
+  "dataset_name": "arastudy_phase2b_cloud_bundle",
+  "version": "phase3_v1",
+  "description": "Phase 2B splits + 6 tokenizers for cloud training",
+  "zip_file": "arastudy_cloud_data.zip",
+  "zip_size_bytes": 231950057,
+  "zip_sha256": "b591c019aa163b0bac05114b25691390bc9cc0380f147f34026291a95776c210",
+  "targets": {
+    "kaggle_dataset": "arastudy-phase2b-data",
+    "colab_drive_path": "MyDrive/arastudy_data/",
+    "lightning_workspace_path": "/teamspace/studios/this_studio/data/"
+  },
+  "files": [
+    {
+      "path": "cloud_data/splits/phase2b/test.txt",
+      "size_bytes": 43739564,
+      "sha256": "86923912e356d1872f67afa969a3ffb7ad22d3a5bf5f3964fd2715c945b14cfb"
+    },
+    {
+      "path": "cloud_data/splits/phase2b/train.txt",
+      "size_bytes": 790239507,
+      "sha256": "d697e07111d9f4151ba69da810af134acd9c5fb5be51cc11da5b0c9798258984"
+    },
+    {
+      "path": "cloud_data/splits/phase2b/valid.txt",
+      "size_bytes": 43683636,
+      "sha256": "3a4bf87fbe5dbd66582bf7eff9a2557b8223457dcb14eca056fc3a9baf5c8fa4"
+    },
+    {
+      "path": "cloud_data/tokenizers/phase2b/bpe_16k.model",
+      "size_bytes": 563394,
+      "sha256": "3a3749f2076bbf048d37086f4ae5d905aab094f101b8845d42e5991089c99e4e"
+    },
+    {
+      "path": "cloud_data/tokenizers/phase2b/bpe_16k.vocab",
+      "size_bytes": 296109,
+      "sha256": "0ebe8c1f0768bff6b8110b9e88e8b4bab87559095c86be030de13dbbe863000f"
+    },
+    {
+      "path": "cloud_data/tokenizers/phase2b/bpe_32k.model",
+      "size_bytes": 914692,
+      "sha256": "466702fe5e1e6ab1acf800ccefa761c8f395bc5bd8fc7d6db0f90296a1ef02a1"
+    },
+    {
+      "path": "cloud_data/tokenizers/phase2b/bpe_32k.vocab",
+      "size_bytes": 631406,
+      "sha256": "4006aa9109fd527a3a7fc687c9d067d289eb6ac538728658688c759aa2b0a4d3"
+    },
+    {
+      "path": "cloud_data/tokenizers/phase2b/bpe_8k.model",
+      "size_bytes": 393335,
+      "sha256": "e1d82d9f280d496b5533328317a7ad5a3eeb86d3f27f206920ae20cdf9dfcb59"
+    },
+    {
+      "path": "cloud_data/tokenizers/phase2b/bpe_8k.vocab",
+      "size_bytes": 136056,
+      "sha256": "7538cc717fd33cbe5eededb6330c4688f6aa841daffef7e86dc0d608877b7261"
+    },
+    {
+      "path": "cloud_data/tokenizers/phase2b/char.model",
+      "size_bytes": 242210,
+      "sha256": "c5c4a6259ab5feb5ea56cc37d310f22e5bf49dbd29419a41b380c187330e54c5"
+    },
+    {
+      "path": "cloud_data/tokenizers/phase2b/char.vocab",
+      "size_bytes": 2206,
+      "sha256": "02c20d3cbc90c47b013435f0f9b269b05f01daacf18a39d01a09bbba3df4af94"
+    },
+    {
+      "path": "cloud_data/tokenizers/phase2b/morph_bpe_16k.model",
+      "size_bytes": 566645,
+      "sha256": "59593ea1a381fdc5e7b8a9259ff4784db645ca7a61ae2a4325db21ea88f63897"
+    },
+    {
+      "path": "cloud_data/tokenizers/phase2b/morph_bpe_16k.vocab",
+      "size_bytes": 299347,
+      "sha256": "5ac9ecc06103e89777769591bf2990c895c1e5ac6f93c425db415b3f6ca7e03f"
+    },
+    {
+      "path": "cloud_data/tokenizers/phase2b/morph_bpe_8k.model",
+      "size_bytes": 396092,
+      "sha256": "b41da1607b601b71424d99b2f99a98b27266bef0d8a8d4f5841b7652aaa1620b"
+    },
+    {
+      "path": "cloud_data/tokenizers/phase2b/morph_bpe_8k.vocab",
+      "size_bytes": 138800,
+      "sha256": "3210a0d81d6662280a32a67d6c4ac9a5eb853bb120c99e867a1a708e5588e794"
+    }
+  ]
+}

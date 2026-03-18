@@ -14,27 +14,6 @@ __pycache__/
 results/checkpoints/**
 results/tokenizers/**
 results/logs/**
-!results/logs/exp01_full/
-results/logs/exp01_full/**
-!results/logs/exp01_full/day1_local_morph8k/
-!results/logs/exp01_full/night1_bpe_16k/
-!results/logs/exp01_full/night1_bpe_32k/
-!results/logs/exp01_full/night2_bpe_8k/
-!results/logs/exp01_full/night2_char/
-!results/logs/exp01_full/night2_morph_bpe_16k/
-!results/logs/exp01_full/final_runs_aggregate_6of6.csv
-!results/logs/exp01_full/final_results_6of6.md
-!results/logs/exp01_full/full_leaderboard.md
-!results/logs/exp01_full/night1_bpe_32k/bpe_32k_generation.md
-!results/logs/exp01_full/night1_bpe_16k/bpe_16k_generation.md
-!results/logs/exp01_full/day1_local_morph8k/morph_bpe_8k_generation.md
-!results/logs/exp01_full/night2_morph_bpe_16k/morph_bpe_16k_generation.md
-!results/logs/exp01_full/night2_bpe_8k/bpe_8k_generation.md
-!results/logs/exp01_full/night2_char/char_generation.md
-!results/logs/phase2b/
-results/logs/phase2b/**
-!results/logs/phase2b/tokenizer_stats.csv
-!results/logs/phase2b/tokenizer_stats.md
 wandb/
 *.onnx
 
@@ -49,6 +28,7 @@ data/splits/
 results/figures/
 
 # Cloud packaging artifacts
+cloud_data/
 artifacts/drive_upload/*.zip
 artifacts/_tmp_drive_pack/
 archive/pilot_results/**/*.pt

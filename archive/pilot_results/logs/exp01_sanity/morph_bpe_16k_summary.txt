@@ -1,0 +1,6 @@
+tokenizer=morph_bpe_16k
+vocab_size=16000
+total_params=7506176
+best_val_loss=7.040647
+tokens_seen=614400
+elapsed_sec=7.25

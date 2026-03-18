@@ -4,39 +4,50 @@ project:
   name: "AraStudy-30M"
   seed: 42
   output_dir: "results/"
+  phase: "phase3_fresh_start"
 
 model:
   dim: 512
-  n_layers: 8
+  n_layers: 6
   n_heads: 8
   vocab_size: 32000
   max_seq_len: 512
   dropout: 0.1
+  positional_encoding: "learned"
+  activation: "swiglu"
+  normalization: "rmsnorm"
+  weight_tying: true
 
 data:
-  tokenizer_path: "data/tokenizer/arastudy.model"
-  train_data_path: "data/processed/train.bin"
-  val_data_path: "data/processed/val.bin"
-  dataset_name: "arastudy_curriculum"
+  split_dir: "data/splits/phase2b"
+  tokenizer_dir: "results/tokenizers/phase2b"
+  train_file: "data/splits/phase2b/train.txt"
+  val_file: "data/splits/phase2b/valid.txt"
+  test_file: "data/splits/phase2b/test.txt"
+  generation_prompts: "generation_benchmark_prompts.md"
 
 training:
-  batch_size: 32          # Adjusted for RTX 4050
+  batch_size: 16
   gradient_accumulation_steps: 4
-  learning_rate: 6e-4
-  min_lr: 6e-5
+  learning_rate: 3e-4
+  min_lr: 3e-5
   weight_decay: 1e-1
   beta1: 0.9
   beta2: 0.95
-  max_iters: 20000        # Depends on dataset size
+  max_iters: 10000
   warmup_iters: 500
-  eval_interval: 200
+  eval_interval: 250
+  save_interval: 1000
+  early_stopping_patience: 5
+  generation_interval: 2500
   log_interval: 10
   device: "cuda"
-  dtype: "bfloat16"       # Use 'float16' if bfloat16 not supported
-  compile: true           # PyTorch 2.0 compilation
+  dtype: "bfloat16"
+  compile: true
+  scheduler: "cosine_with_warmup"
 
 curriculum:
-  enabled: true
+  enabled: false
   stages:
     - name: "Easy"
       fraction: 0.3
@@ -49,6 +60,6 @@ curriculum:
       complexity_score_max: 1.0
 
 wandb:
-  enabled: true
+  enabled: false
   project: "AraStudy"
   entity: null # Your username

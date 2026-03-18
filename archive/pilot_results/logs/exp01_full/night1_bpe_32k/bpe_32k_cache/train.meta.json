@@ -1,0 +1,6 @@
+{
+  "split_file": "data/splits/phase2b/train.txt",
+  "token_file": "results/logs/exp01_full/night1_bpe_32k/bpe_32k_cache/train.u32.bin",
+  "total_tokens": 98045141,
+  "dtype": "uint32"
+}

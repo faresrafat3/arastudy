@@ -1,0 +1,89 @@
+[2026-03-17 00:49:32] [queue] started run_prefix=night2
+[2026-03-17 00:49:32] [queue] tokenizers=bpe_8k morph_bpe_16k char
+[2026-03-17 00:49:32] [queue] start tokenizer=bpe_8k run_id=night2_bpe_8k attempt=1 resume=
+[full] token cache ready train_tokens=120153774 valid_tokens=6641820
+[full] step=1 train_loss=9.097352 val_loss=9.093100 bpc=4.325989
+[full] step=500 train_loss=6.392703 val_loss=6.393987 bpc=3.041902
+[full] step=1000 train_loss=5.592343 val_loss=5.516338 bpc=2.624365
+[full] step=1500 train_loss=5.010292 val_loss=4.969636 bpc=2.364275
+[full] step=2000 train_loss=4.892247 val_loss=4.693077 bpc=2.232704
+[full] step=2500 train_loss=4.133816 val_loss=4.459168 bpc=2.121423
+[full] step=3000 train_loss=4.426643 val_loss=4.374856 bpc=2.081312
+[full] step=3500 train_loss=4.232409 val_loss=4.230126 bpc=2.012458
+[full] step=4000 train_loss=4.231434 val_loss=4.216570 bpc=2.006009
+[full] step=4500 train_loss=3.919087 val_loss=4.167204 bpc=1.982523
+[full] step=5000 train_loss=4.280902 val_loss=4.115562 bpc=1.957954
+[full] step=5500 train_loss=3.795432 val_loss=4.058419 bpc=1.930769
+[full] step=6000 train_loss=3.831182 val_loss=4.029160 bpc=1.916849
+[full] step=6500 train_loss=3.787638 val_loss=4.040691 bpc=1.922335
+[full] step=7000 train_loss=3.958748 val_loss=3.990448 bpc=1.898432
+[full] step=7500 train_loss=3.634558 val_loss=4.009337 bpc=1.907419
+[full] step=8000 train_loss=3.980244 val_loss=3.944987 bpc=1.876804
+[full] step=8500 train_loss=3.869641 val_loss=3.968011 bpc=1.887758
+[full] step=9000 train_loss=3.761085 val_loss=3.973135 bpc=1.890196
+[full] step=9500 train_loss=3.612015 val_loss=3.915377 bpc=1.862718
+[full] step=10000 train_loss=3.996952 val_loss=3.897417 bpc=1.854173
+[full] step=10500 train_loss=3.601592 val_loss=3.841254 bpc=1.827454
+[full] step=11000 train_loss=3.721480 val_loss=3.849698 bpc=1.831471
+[full] step=11500 train_loss=3.903578 val_loss=3.897876 bpc=1.854392
+[full] step=12000 train_loss=3.638680 val_loss=3.860878 bpc=1.836790
+[full] step=12500 train_loss=3.608276 val_loss=3.849419 bpc=1.831339
+[full] early stopping at step=12500
+[full] finished tokenizer=bpe_8k run_id=night2_bpe_8k
+[full] summary=results/logs/exp01_full/night2_bpe_8k/bpe_8k_summary.json
+[2026-03-17 03:00:42] [queue] done tokenizer=bpe_8k run_id=night2_bpe_8k
+[2026-03-17 03:00:42] [queue] start tokenizer=morph_bpe_16k run_id=night2_morph_bpe_16k attempt=1 resume=
+[full] token cache ready train_tokens=127762224 valid_tokens=7064216
+[full] step=1 train_loss=9.814809 val_loss=9.818913 bpc=4.968368
+[full] step=500 train_loss=5.593707 val_loss=5.886761 bpc=2.978700
+[full] step=1000 train_loss=5.457689 val_loss=5.243102 bpc=2.653009
+[full] step=1500 train_loss=4.396111 val_loss=4.703951 bpc=2.380198
+[full] step=2000 train_loss=4.661126 val_loss=4.400507 bpc=2.226655
+[full] step=2500 train_loss=4.135842 val_loss=4.176475 bpc=2.113295
+[full] step=3000 train_loss=4.161010 val_loss=4.135798 bpc=2.092713
+[full] step=3500 train_loss=3.912570 val_loss=4.032828 bpc=2.040610
+[full] step=4000 train_loss=3.922397 val_loss=3.927390 bpc=1.987258
+[full] step=4500 train_loss=3.691345 val_loss=3.920008 bpc=1.983523
+[full] step=5000 train_loss=3.854352 val_loss=3.839109 bpc=1.942588
+[full] step=5500 train_loss=3.716818 val_loss=3.813294 bpc=1.929526
+[full] step=6000 train_loss=3.623441 val_loss=3.774042 bpc=1.909664
+[full] step=6500 train_loss=3.730149 val_loss=3.742477 bpc=1.893692
+[full] step=7000 train_loss=3.781630 val_loss=3.804538 bpc=1.925095
+[full] step=7500 train_loss=3.635065 val_loss=3.769198 bpc=1.907213
+[full] step=8000 train_loss=3.775210 val_loss=3.695129 bpc=1.869735
+[full] step=8500 train_loss=3.616655 val_loss=3.694834 bpc=1.869585
+[full] step=9000 train_loss=3.828635 val_loss=3.676916 bpc=1.860519
+[full] step=9500 train_loss=3.726331 val_loss=3.730268 bpc=1.887515
+[full] step=10000 train_loss=3.624047 val_loss=3.585395 bpc=1.814209
+[full] step=10500 train_loss=3.320168 val_loss=3.476209 bpc=1.758961
+[full] step=11000 train_loss=3.514214 val_loss=3.601533 bpc=1.822375
+[full] step=11500 train_loss=3.679089 val_loss=3.647514 bpc=1.845641
+[full] step=12000 train_loss=3.675932 val_loss=3.591680 bpc=1.817390
+[full] step=12500 train_loss=3.658053 val_loss=3.547334 bpc=1.794950
+[full] early stopping at step=12500
+[full] finished tokenizer=morph_bpe_16k run_id=night2_morph_bpe_16k
+[full] summary=results/logs/exp01_full/night2_morph_bpe_16k/morph_bpe_16k_summary.json
+[2026-03-17 05:18:34] [queue] done tokenizer=morph_bpe_16k run_id=night2_morph_bpe_16k
+[2026-03-17 05:18:34] [queue] start tokenizer=char run_id=night2_char attempt=1 resume=
+[full] token cache ready train_tokens=439994563 valid_tokens=24320734
+[full] step=1 train_loss=5.362106 val_loss=5.348405 bpc=9.317241
+[full] step=500 train_loss=2.491506 val_loss=2.478616 bpc=4.317897
+[full] step=1000 train_loss=1.812429 val_loss=1.785524 bpc=3.110489
+[full] step=1500 train_loss=1.559963 val_loss=1.488040 bpc=2.592255
+[full] step=2000 train_loss=1.475462 val_loss=1.450321 bpc=2.526546
+[full] step=2500 train_loss=1.477278 val_loss=1.430383 bpc=2.491813
+[full] step=3000 train_loss=1.440324 val_loss=1.370027 bpc=2.386668
+[full] step=3500 train_loss=1.353448 val_loss=1.325256 bpc=2.308675
+[full] step=4000 train_loss=1.369606 val_loss=1.314366 bpc=2.289705
+[full] step=4500 train_loss=1.354017 val_loss=1.336464 bpc=2.328201
+[full] step=5000 train_loss=1.368833 val_loss=1.335798 bpc=2.327039
+[full] step=5500 train_loss=1.230253 val_loss=1.215111 bpc=2.116795
+[full] step=6000 train_loss=1.271852 val_loss=1.260060 bpc=2.195100
+[full] step=6500 train_loss=1.266374 val_loss=1.254165 bpc=2.184830
+[full] step=7000 train_loss=1.235051 val_loss=1.266958 bpc=2.207117
+[full] step=7500 train_loss=1.287064 val_loss=1.259512 bpc=2.194146
+[full] early stopping at step=7500
+[full] finished tokenizer=char run_id=night2_char
+[full] summary=results/logs/exp01_full/night2_char/char_summary.json
+[2026-03-17 06:18:46] [queue] done tokenizer=char run_id=night2_char
+[2026-03-17 06:18:46] [queue] all scheduled runs completed

@@ -1,62 +1,50 @@
 experiment:
-  name: "exp01_arabic_tokenization_impact"
-  seed: 42
-
-paths:
-  raw_glob: "data/raw/*.txt"
-  cleaned_corpus: "data/processed/exp01_cleaned.txt"
-  split_dir: "data/splits/exp01"
-  tokenizer_dir: "results/tokenizers/exp01"
-  analysis_dir: "results/logs/exp01"
-
-cleaning:
-  min_words: 20
-  deduplicate: true
-  keep_diacritics: false
-  normalize_arabic: true
-
-split:
-  train_ratio: 0.90
-  valid_ratio: 0.05
-  test_ratio: 0.05
-
-analysis:
-  sample_sentences: 1000
-  hidden_dim: 512
+  name: "exp01_tokenization_comparison"
+  description: "Systematic comparison of 6 tokenization strategies"
 
 model:
+  dim: 512
   n_layers: 6
-  hidden_dim: 512
-  feedforward_dim: 2048
+  n_heads: 8
+  max_seq_len: 512
+  dropout: 0.1
+
+training:
+  steps: 10000
+  eval_every: 250
+  save_every: 1000
+  batch_size: 16
+  grad_accum_steps: 4
+  learning_rate: 0.0003
+  weight_decay: 0.1
+  betas: [0.9, 0.95]
+  warmup_steps: 500
+  early_stopping_patience: 5
+  use_amp: true
+  eval_max_batches: 80
+
+generation:
+  every_steps: 2500
+  max_new_tokens: 200
+  temperature: 0.8
+  top_k: 50
+  disallow_unk_token: true
+  normalize_like_corpus: true
+  prompt_file: "generation_benchmark_prompts.md"
+
+paths:
+  split_dir: "data/splits/phase2b"
+  tokenizer_dir: "results/tokenizers/phase2b"
+  output_dir: "results/exp01"
+  log_dir: "results/logs/exp01"
+  tokenization_config: "configs/experiments/exp01_phase2b_data.yaml"
 
 tokenizers:
-  - id: "bpe_32k"
-    label: "BPE-32K"
-    model_type: "bpe"
-    vocab_size: 32000
-    use_morph_segmentation: false
-  - id: "bpe_16k"
-    label: "BPE-16K"
-    model_type: "bpe"
-    vocab_size: 16000
-    use_morph_segmentation: false
-  - id: "bpe_8k"
-    label: "BPE-8K"
-    model_type: "bpe"
-    vocab_size: 8000
-    use_morph_segmentation: false
-  - id: "morph_bpe_16k"
-    label: "Morph-BPE-16K"
-    model_type: "bpe"
-    vocab_size: 16000
-    use_morph_segmentation: true
-  - id: "morph_bpe_8k"
-    label: "Morph-BPE-8K"
-    model_type: "bpe"
-    vocab_size: 8000
-    use_morph_segmentation: true
-  - id: "char"
-    label: "Char-Level"
-    model_type: "char"
-    vocab_size: 200
-    use_morph_segmentation: false
+  - {id: bpe_32k, label: "BPE-32K"}
+  - {id: bpe_16k, label: "BPE-16K"}
+  - {id: bpe_8k, label: "BPE-8K"}
+  - {id: morph_bpe_16k, label: "Morph-BPE-16K"}
+  - {id: morph_bpe_8k, label: "Morph-BPE-8K"}
+  - {id: char, label: "Char-Level"}
+
+seeds: [42, 123, 2024]

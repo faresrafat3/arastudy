@@ -1,0 +1,9 @@
+{
+  "tokenizer_id": "bpe_32k",
+  "run_id": "night1_bpe_32k",
+  "best_val_loss": 4.4039839714765545,
+  "best_bpc": 1.7101731639781959,
+  "tokens_seen": 475136000,
+  "elapsed_sec": 12100.182131767273,
+  "peak_vram_gb": 2.825805187225342
+}

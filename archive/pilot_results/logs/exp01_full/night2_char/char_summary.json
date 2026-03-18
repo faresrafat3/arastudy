@@ -1,0 +1,9 @@
+{
+  "tokenizer_id": "char",
+  "run_id": "night2_char",
+  "best_val_loss": 1.2151107288897038,
+  "best_bpc": 2.1167954047521333,
+  "tokens_seen": 245760000,
+  "elapsed_sec": 3507.6335151195526,
+  "peak_vram_gb": 0.7445688247680664
+}

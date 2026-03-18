@@ -11,7 +11,8 @@ __pycache__/
 *.swo
 
 # ML
-results/checkpoints/*.pt
+results/checkpoints/**
+results/tokenizers/**
 results/logs/**
 !results/logs/exp01_full/
 results/logs/exp01_full/**
@@ -50,6 +51,11 @@ results/figures/
 # Cloud packaging artifacts
 artifacts/drive_upload/*.zip
 artifacts/_tmp_drive_pack/
+archive/pilot_results/**/*.pt
+archive/pilot_results/**/*.u32.bin
+archive/pilot_results/**/*.sqlite
+*.zip
+nohup.out
 
 # System
 .DS_Store

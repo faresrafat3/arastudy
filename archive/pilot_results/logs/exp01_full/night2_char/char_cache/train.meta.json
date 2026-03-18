@@ -1,0 +1,6 @@
+{
+  "split_file": "data/splits/phase2b/train.txt",
+  "token_file": "results/logs/exp01_full/night2_char/char_cache/train.u32.bin",
+  "total_tokens": 439994563,
+  "dtype": "uint32"
+}

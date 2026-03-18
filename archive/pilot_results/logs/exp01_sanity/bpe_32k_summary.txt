@@ -1,0 +1,6 @@
+tokenizer=bpe_32k
+vocab_size=32000
+total_params=11602176
+best_val_loss=8.331104
+tokens_seen=614400
+elapsed_sec=11.27

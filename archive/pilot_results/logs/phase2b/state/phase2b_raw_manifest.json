@@ -1,0 +1,5 @@
+{
+  "max_articles": 300000,
+  "processed_articles": 300000,
+  "num_shards": 35
+}

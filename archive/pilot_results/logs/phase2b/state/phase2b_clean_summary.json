@@ -1,0 +1,9 @@
+{
+  "seen_lines": 6803867,
+  "kept_lines": 1390451,
+  "split_counts": {
+    "train": 1251640,
+    "valid": 69439,
+    "test": 69372
+  }
+}

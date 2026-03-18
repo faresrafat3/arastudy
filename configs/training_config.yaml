@@ -1,0 +1,48 @@
+# AraStudy Phase 3 Fresh Start Training Config
+
+experiment:
+  name: "phase3_fresh_start"
+  description: "Systematic experiments from scratch; pilot results archived"
+
+model:
+  dim: 512
+  n_layers: 6
+  n_heads: 8
+  max_seq_len: 512
+  dropout: 0.1
+  positional_encoding: "learned"
+  activation: "swiglu"
+  normalization: "rmsnorm"
+  weight_tying: true
+
+training:
+  optimizer: "adamw"
+  learning_rate: 0.0003
+  weight_decay: 0.1
+  betas: [0.9, 0.95]
+  scheduler: "cosine_with_warmup"
+  warmup_steps: 500
+  total_steps: 10000
+  batch_size: 16
+  grad_accumulation: 4
+  eval_every: 250
+  save_every: 1000
+  early_stopping_patience: 5
+  use_amp: true
+  generation_every: 2500
+
+evaluation:
+  primary_metric: "bpc"
+  metrics:
+    - "val_loss"
+    - "bpc"
+    - "generation_quality"
+    - "tokens_per_second"
+    - "peak_vram_gb"
+
+paths:
+  split_dir: "data/splits/phase2b"
+  tokenizer_dir: "results/tokenizers/phase2b"
+  generation_prompts: "generation_benchmark_prompts.md"
+  outputs_root: "results"
+  logs_root: "results/logs"

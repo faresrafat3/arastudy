@@ -9,39 +9,24 @@ from collections import defaultdict
 from pathlib import Path
 
 import matplotlib.pyplot as plt
-import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def load_registry(exp: str) -> dict:
-    registry_path = ROOT / "experiments/registry.yaml"
-    data = yaml.safe_load(registry_path.read_text(encoding="utf-8"))
-    for item in data.get("experiments", []):
-        if item.get("id") == exp:
-            return item
-    return {"id": exp, "name": exp}
+def normalize_tokenizer(tokenizer: str) -> str:
+    return tokenizer.replace("morph_8k", "morph_bpe_8k").replace("morph_16k", "morph_bpe_16k")
 
 
-def rows_from_manifest(exp: str) -> list[dict]:
-    manifest_path = ROOT / f"runs/{exp}/run_manifest.yaml"
-    if not manifest_path.exists():
-        return []
-    data = yaml.safe_load(manifest_path.read_text(encoding="utf-8")) or {}
-    return list(data.get("runs", []))
-
-
-def rows_from_logs(exp: str) -> list[dict]:
-    log_root = ROOT / f"results/logs/{exp}"
-    if not log_root.exists():
+def load_runs(exp: str) -> list[dict]:
+    run_root = ROOT / f"results/{exp}"
+    if not run_root.exists():
         return []
 
     rows: list[dict] = []
-    for summary_path in sorted(log_root.glob("*/*_summary.json")):
+    for summary_path in sorted(run_root.glob("*/summary.json")):
+        run_dir = summary_path.parent
         summary = json.loads(summary_path.read_text(encoding="utf-8"))
-        tokenizer = str(summary.get("tokenizer_id", ""))
-        run_id = str(summary.get("run_id", ""))
-        metrics_path = summary_path.with_name(f"{tokenizer}_metrics.csv")
+        metrics_path = run_dir / "metrics.csv"
         if not metrics_path.exists():
             continue
 
@@ -53,38 +38,35 @@ def rows_from_logs(exp: str) -> list[dict]:
         if not metrics:
             continue
 
-        eval_rows = [m for m in metrics if str(m.get("val_loss", "")).strip()]
+        eval_rows = [row for row in metrics if str(row.get("val_loss", "")).strip()]
         if not eval_rows:
             continue
 
         best = min(eval_rows, key=lambda r: float(r["val_loss"]))
-        tps_vals = [
-            float(m["tokens_per_sec"])
-            for m in metrics
-            if str(m.get("tokens_per_sec", "")).strip()
+        tps_values = [
+            float(row["tokens_sec"])
+            for row in metrics
+            if str(row.get("tokens_sec", "")).strip()
         ]
 
-        seed = 42
-        if "_s" in run_id:
-            try:
-                seed = int(run_id.rsplit("_s", 1)[1])
-            except ValueError:
-                seed = 42
+        run_id = str(summary.get("run_id", run_dir.name))
+        tokenizer = normalize_tokenizer(str(summary.get("tokenizer", "unknown")))
 
         rows.append(
             {
-                "id": f"{tokenizer}_s{seed}",
+                "run_id": run_id,
                 "tokenizer": tokenizer,
-                "seed": seed,
-                "best_val_loss": float(best["val_loss"]),
-                "best_bpc": float(best["bpc"]),
-                "best_step": int(best["step"]),
-                "final_step": int(metrics[-1]["step"]),
-                "training_time_h": float(summary.get("elapsed_sec", 0.0)) / 3600.0,
+                "seed": int(summary.get("seed", 42)),
+                "best_val_loss": float(summary.get("best_val_loss", best["val_loss"])),
+                "best_bpc": float(summary.get("best_bpc", best.get("bpc") or 0.0)),
+                "best_step": int(summary.get("best_step", best["step"])),
+                "final_step": int(summary.get("final_step", metrics[-1]["step"])),
+                "training_time_h": float(summary.get("training_time_h", 0.0)),
                 "peak_vram_gb": float(summary.get("peak_vram_gb", 0.0)),
-                "tokens_per_sec": sum(tps_vals) / max(len(tps_vals), 1),
-                "total_params": 0,
-                "hardware": "RTX_4050_or_Colab",
+                "tokens_sec": sum(tps_values) / max(len(tps_values), 1),
+                "total_params": int(summary.get("total_params", 0)),
+                "hardware": str(summary.get("hardware", "unknown")),
+                "summary_json": str(summary_path.relative_to(ROOT)),
                 "metrics_csv": str(metrics_path.relative_to(ROOT)),
             }
         )
@@ -92,16 +74,9 @@ def rows_from_logs(exp: str) -> list[dict]:
     return rows
 
 
-def load_runs(exp: str) -> list[dict]:
-    rows = rows_from_manifest(exp)
-    if rows:
-        return rows
-    return rows_from_logs(exp)
-
-
-def save_comparison_csv(exp: str, rows: list[dict]) -> Path:
-    out_path = ROOT / f"runs/{exp}/comparison_table.csv"
-    out_path.parent.mkdir(parents=True, exist_ok=True)
+def save_per_run_table(exp: str, rows: list[dict]) -> Path:
+    out = ROOT / f"experiments/{exp}/comparison_table.csv"
+    out.parent.mkdir(parents=True, exist_ok=True)
     fields = [
         "run_id",
         "tokenizer",
@@ -112,70 +87,51 @@ def save_comparison_csv(exp: str, rows: list[dict]) -> Path:
         "final_step",
         "training_time_h",
         "peak_vram_gb",
-        "tokens_per_sec",
+        "tokens_sec",
         "total_params",
         "hardware",
+        "summary_json",
+        "metrics_csv",
     ]
-    with out_path.open("w", encoding="utf-8", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=fields)
-        writer.writeheader()
-        for row in rows:
-            writer.writerow(
-                {
-                    "run_id": row["id"],
-                    "tokenizer": row["tokenizer"],
-                    "seed": row["seed"],
-                    "best_val_loss": row["best_val_loss"],
-                    "best_bpc": row["best_bpc"],
-                    "best_step": row["best_step"],
-                    "final_step": row.get("final_step", ""),
-                    "training_time_h": row["training_time_h"],
-                    "peak_vram_gb": row["peak_vram_gb"],
-                    "tokens_per_sec": row["tokens_per_sec"],
-                    "total_params": row.get("total_params", 0),
-                    "hardware": row.get("hardware", ""),
-                }
-            )
-    return out_path
-
-
-def markdown_table(rows: list[dict]) -> str:
-    lines = [
-        "| Run | Tokenizer | Seed | Val Loss | BPC | Best Step | Tok/s | VRAM (GB) |",
-        "|---|---|---:|---:|---:|---:|---:|---:|",
-    ]
-    for row in rows:
-        lines.append(
-            "| {id} | {tok} | {seed} | {vl:.6f} | {bpc:.6f} | {bs} | {tps:.2f} | {vram:.4f} |".format(
-                id=row["id"],
-                tok=row["tokenizer"],
-                seed=row["seed"],
-                vl=float(row["best_val_loss"]),
-                bpc=float(row["best_bpc"]),
-                bs=row["best_step"],
-                tps=float(row["tokens_per_sec"]),
-                vram=float(row["peak_vram_gb"]),
-            )
-        )
-    return "\n".join(lines)
-
-
-def grouped_stats(rows: list[dict], metric: str) -> dict[str, dict[str, float]]:
-    grp: dict[str, list[float]] = defaultdict(list)
-    for row in rows:
-        grp[row["tokenizer"]].append(float(row[f"best_{metric}"]))
-
-    out: dict[str, dict[str, float]] = {}
-    for tok, values in grp.items():
-        mean = statistics.mean(values)
-        std = statistics.stdev(values) if len(values) > 1 else 0.0
-        out[tok] = {"mean": mean, "std": std, "n": float(len(values))}
+    with out.open("w", encoding="utf-8", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=fields)
+        w.writeheader()
+        w.writerows(rows)
     return out
 
 
-def bootstrap_pvalue(
-    a: list[float], b: list[float], n_boot: int = 5000
-) -> tuple[float, float, float]:
+def grouped_stats(rows: list[dict], metric: str) -> dict[str, dict[str, float]]:
+    grouped: dict[str, list[float]] = defaultdict(list)
+    for row in rows:
+        grouped[row["tokenizer"]].append(float(row[f"best_{metric}"]))
+
+    stats: dict[str, dict[str, float]] = {}
+    for tok, values in grouped.items():
+        mean = statistics.mean(values)
+        std = statistics.stdev(values) if len(values) > 1 else 0.0
+        stats[tok] = {"mean": mean, "std": std, "n": float(len(values))}
+    return stats
+
+
+def save_mean_std_table(exp: str, metric: str, stats: dict[str, dict[str, float]]) -> Path:
+    out = ROOT / f"experiments/{exp}/mean_std_table.csv"
+    with out.open("w", encoding="utf-8", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=["tokenizer", "metric", "mean", "std", "n"])
+        w.writeheader()
+        for tok, values in sorted(stats.items(), key=lambda kv: kv[1]["mean"]):
+            w.writerow(
+                {
+                    "tokenizer": tok,
+                    "metric": metric,
+                    "mean": values["mean"],
+                    "std": values["std"],
+                    "n": int(values["n"]),
+                }
+            )
+    return out
+
+
+def bootstrap_pvalue(a: list[float], b: list[float], n_boot: int = 5000) -> tuple[float, float, float]:
     if not a or not b:
         return float("nan"), float("nan"), float("nan")
 
@@ -186,49 +142,58 @@ def bootstrap_pvalue(
         sb = [random.choice(b) for _ in range(len(b))]
         diffs.append(statistics.mean(sa) - statistics.mean(sb))
 
-    diffs_sorted = sorted(diffs)
-    lo = diffs_sorted[int(0.025 * len(diffs_sorted))]
-    hi = diffs_sorted[int(0.975 * len(diffs_sorted))]
+    diffs.sort()
+    lo = diffs[int(0.025 * len(diffs))]
+    hi = diffs[int(0.975 * len(diffs))]
     p_left = sum(1 for d in diffs if d <= 0) / len(diffs)
     p_right = sum(1 for d in diffs if d >= 0) / len(diffs)
-    p_two = 2 * min(p_left, p_right)
-    return lo, hi, min(p_two, 1.0)
+    p_two = min(1.0, 2 * min(p_left, p_right))
+    return lo, hi, p_two
 
 
-def significance_report(rows: list[dict], metric: str) -> str:
-    grp: dict[str, list[float]] = defaultdict(list)
+def save_significance_table(exp: str, rows: list[dict], metric: str) -> Path:
+    grouped: dict[str, list[float]] = defaultdict(list)
     for row in rows:
-        grp[row["tokenizer"]].append(float(row[f"best_{metric}"]))
+        grouped[row["tokenizer"]].append(float(row[f"best_{metric}"]))
 
-    toks = sorted(grp.keys())
+    toks = sorted(grouped.keys())
+    out = ROOT / f"experiments/{exp}/significance_test.csv"
+    with out.open("w", encoding="utf-8", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=["tokenizer_a", "tokenizer_b", "ci_low", "ci_high", "p_value"])
+        w.writeheader()
+        for i in range(len(toks)):
+            for j in range(i + 1, len(toks)):
+                a, b = toks[i], toks[j]
+                lo, hi, p = bootstrap_pvalue(grouped[a], grouped[b])
+                w.writerow(
+                    {
+                        "tokenizer_a": a,
+                        "tokenizer_b": b,
+                        "ci_low": lo,
+                        "ci_high": hi,
+                        "p_value": p,
+                    }
+                )
+    return out
+
+
+def save_latex_table(exp: str, metric: str, stats: dict[str, dict[str, float]]) -> Path:
+    out = ROOT / f"experiments/{exp}/paper_table_{metric}.tex"
     lines = [
-        "## Bootstrap significance (difference of means)",
-        "",
-        "| A | B | 95% CI (A-B) | p-value |",
-        "|---|---|---|---:|",
+        "\\begin{tabular}{lcc}",
+        "\\hline",
+        r"Tokenizer & Mean & Std \\",
+        "\\hline",
     ]
-    for i in range(len(toks)):
-        for j in range(i + 1, len(toks)):
-            a, b = toks[i], toks[j]
-            lo, hi, p = bootstrap_pvalue(grp[a], grp[b])
-            lines.append(f"| {a} | {b} | [{lo:.6f}, {hi:.6f}] | {p:.4f} |")
-    return "\n".join(lines)
-
-
-def summary_markdown(stats: dict[str, dict[str, float]], metric: str) -> str:
-    lines = [
-        f"## Tokenizer summary ({metric})",
-        "",
-        "| Tokenizer | Mean ± Std | n |",
-        "|---|---:|---:|",
-    ]
-    for tok, s in sorted(stats.items(), key=lambda kv: kv[1]["mean"]):
-        lines.append(f"| {tok} | {s['mean']:.6f} ± {s['std']:.6f} | {int(s['n'])} |")
-    return "\n".join(lines)
+    for tok, values in sorted(stats.items(), key=lambda kv: kv[1]["mean"]):
+        lines.append(rf"{tok} & {values['mean']:.6f} & {values['std']:.6f} \\")
+    lines += ["\\hline", "\\end{tabular}"]
+    out.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    return out
 
 
 def plot_metric(exp: str, rows: list[dict], metric: str) -> Path:
-    figures_dir = ROOT / f"runs/{exp}/figures"
+    figures_dir = ROOT / f"experiments/{exp}/figures"
     figures_dir.mkdir(parents=True, exist_ok=True)
     out = figures_dir / f"{metric}_comparison.png"
 
@@ -238,9 +203,7 @@ def plot_metric(exp: str, rows: list[dict], metric: str) -> Path:
 
     labels = sorted(grouped.keys(), key=lambda k: statistics.mean(grouped[k]))
     means = [statistics.mean(grouped[k]) for k in labels]
-    stds = [
-        statistics.stdev(grouped[k]) if len(grouped[k]) > 1 else 0.0 for k in labels
-    ]
+    stds = [statistics.stdev(grouped[k]) if len(grouped[k]) > 1 else 0.0 for k in labels]
 
     plt.figure(figsize=(9, 4.8))
     bars = plt.bar(labels, means, yerr=stds, capsize=4)
@@ -248,13 +211,7 @@ def plot_metric(exp: str, rows: list[dict], metric: str) -> Path:
     plt.title(f"{exp.upper()} {metric.upper()} mean ± std")
     plt.xticks(rotation=20)
     for bar, val in zip(bars, means):
-        plt.text(
-            bar.get_x() + bar.get_width() / 2,
-            val,
-            f"{val:.3f}",
-            ha="center",
-            va="bottom",
-        )
+        plt.text(bar.get_x() + bar.get_width() / 2, val, f"{val:.3f}", ha="center", va="bottom")
     plt.tight_layout()
     plt.savefig(out, dpi=160)
     plt.close()
@@ -262,57 +219,33 @@ def plot_metric(exp: str, rows: list[dict], metric: str) -> Path:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Compare runs inside one experiment")
-    parser.add_argument("--exp", required=True, help="Experiment id, e.g. exp01")
-    parser.add_argument(
-        "--metric",
-        default="bpc",
-        choices=["bpc", "val_loss"],
-        help="Primary ranking metric",
-    )
-    parser.add_argument("--plot", action="store_true", help="Generate plots")
+    parser = argparse.ArgumentParser(description="Compare runs for one experiment")
+    parser.add_argument("--exp", required=True, help="Experiment folder under results/, e.g. exp01")
+    parser.add_argument("--metric", default="bpc", choices=["bpc", "val_loss"])
+    parser.add_argument("--plot", action="store_true")
     args = parser.parse_args()
 
-    registry_item = load_registry(args.exp)
     rows = load_runs(args.exp)
     if not rows:
-        raise RuntimeError(
-            f"No runs found for {args.exp}. Check runs manifest or results/logs/{args.exp}."
-        )
+        raise RuntimeError(f"No completed runs found under results/{args.exp}/")
 
     metric_key = f"best_{args.metric}"
-    rows_sorted = sorted(rows, key=lambda r: float(r[metric_key]))
+    sorted_rows = sorted(rows, key=lambda row: float(row[metric_key]))
 
-    comparison_csv = save_comparison_csv(args.exp, rows_sorted)
-    table = markdown_table(rows_sorted)
-    stats = grouped_stats(rows_sorted, args.metric)
-    stats_md = summary_markdown(stats, args.metric)
-    sig_md = significance_report(rows_sorted, args.metric)
+    per_run = save_per_run_table(args.exp, sorted_rows)
+    stats = grouped_stats(sorted_rows, args.metric)
+    mean_std = save_mean_std_table(args.exp, args.metric, stats)
+    sig = save_significance_table(args.exp, sorted_rows, args.metric)
+    tex = save_latex_table(args.exp, args.metric, stats)
 
-    analysis_dir = ROOT / f"runs/{args.exp}/analysis"
-    analysis_dir.mkdir(parents=True, exist_ok=True)
-    out_md = analysis_dir / f"comparison_{args.metric}.md"
-    out_md.write_text(
-        f"# {registry_item.get('name', args.exp)}\n\n"
-        f"Ranking metric: `{args.metric}`\n\n"
-        + table
-        + "\n\n"
-        + stats_md
-        + "\n\n"
-        + sig_md
-        + "\n",
-        encoding="utf-8",
-    )
-
-    print(table)
-    print("\n" + stats_md)
-    print("\n" + sig_md)
-    print(f"\nSaved CSV: {comparison_csv}")
-    print(f"Saved Markdown: {out_md}")
+    print(f"Saved per-run table: {per_run}")
+    print(f"Saved mean±std table: {mean_std}")
+    print(f"Saved bootstrap significance: {sig}")
+    print(f"Saved paper-ready LaTeX table: {tex}")
 
     if args.plot:
-        metric_plot = plot_metric(args.exp, rows_sorted, args.metric)
-        print(f"Saved plot: {metric_plot}")
+        fig = plot_metric(args.exp, sorted_rows, args.metric)
+        print(f"Saved plot: {fig}")
 
 
 if __name__ == "__main__":

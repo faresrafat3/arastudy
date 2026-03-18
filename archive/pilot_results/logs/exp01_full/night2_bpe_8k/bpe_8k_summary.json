@@ -1,0 +1,9 @@
+{
+  "tokenizer_id": "bpe_8k",
+  "run_id": "night2_bpe_8k",
+  "best_val_loss": 3.8412543505430223,
+  "best_bpc": 1.8274542676756174,
+  "tokens_seen": 409600000,
+  "elapsed_sec": 7737.875994443893,
+  "peak_vram_gb": 2.6110377311706543
+}

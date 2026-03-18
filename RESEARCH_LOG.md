@@ -1,5 +1,11 @@
 # AraStudy Research Log
 
+# ════════════════════════════════
+# Phase 3: Fresh Start (March 2026)
+# All previous results archived as pilot experiments.
+# Starting systematic experiments from scratch.
+# ════════════════════════════════
+
 سجّل كل تجربة هنا. التوثيق هو أساس البحث العلمي!
 
 ## Template

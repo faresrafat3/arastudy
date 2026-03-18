@@ -1,0 +1,6 @@
+tokenizer=char
+vocab_size=74
+total_params=3429120
+best_val_loss=2.519621
+tokens_seen=614400
+elapsed_sec=4.09

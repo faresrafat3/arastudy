@@ -1,0 +1,9 @@
+{
+  "tokenizer_id": "morph_bpe_8k",
+  "run_id": "day1_local_morph8k",
+  "best_val_loss": 3.322886937856674,
+  "best_bpc": 0.15598464393408326,
+  "tokens_seen": 491520000,
+  "elapsed_sec": 9419.516506433487,
+  "peak_vram_gb": 2.6403346061706543
+}

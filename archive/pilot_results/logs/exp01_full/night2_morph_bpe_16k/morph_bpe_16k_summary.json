@@ -1,0 +1,9 @@
+{
+  "tokenizer_id": "morph_bpe_16k",
+  "run_id": "night2_morph_bpe_16k",
+  "best_val_loss": 3.4762089252471924,
+  "best_bpc": 1.7589609220792932,
+  "tokens_seen": 409600000,
+  "elapsed_sec": 8134.501241445541,
+  "peak_vram_gb": 1.9560542106628418
+}

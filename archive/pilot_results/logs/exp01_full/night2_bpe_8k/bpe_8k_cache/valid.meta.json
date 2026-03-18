@@ -1,0 +1,6 @@
+{
+  "split_file": "data/splits/phase2b/valid.txt",
+  "token_file": "results/logs/exp01_full/night2_bpe_8k/bpe_8k_cache/valid.u32.bin",
+  "total_tokens": 6641820,
+  "dtype": "uint32"
+}

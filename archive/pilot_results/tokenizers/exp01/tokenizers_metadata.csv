@@ -1,0 +1,7 @@
+id,label,model_type,configured_vocab,actual_vocab,morph_segmentation,model_file,vocab_file
+bpe_32k,BPE-32K,bpe,32000,32000,False,results/tokenizers/exp01/bpe_32k.model,results/tokenizers/exp01/bpe_32k.vocab
+bpe_16k,BPE-16K,bpe,16000,16000,False,results/tokenizers/exp01/bpe_16k.model,results/tokenizers/exp01/bpe_16k.vocab
+bpe_8k,BPE-8K,bpe,8000,8000,False,results/tokenizers/exp01/bpe_8k.model,results/tokenizers/exp01/bpe_8k.vocab
+morph_bpe_16k,Morph-BPE-16K,bpe,16000,16000,True,results/tokenizers/exp01/morph_bpe_16k.model,results/tokenizers/exp01/morph_bpe_16k.vocab
+morph_bpe_8k,Morph-BPE-8K,bpe,8000,8000,True,results/tokenizers/exp01/morph_bpe_8k.model,results/tokenizers/exp01/morph_bpe_8k.vocab
+char,Char-Level,char,200,74,False,results/tokenizers/exp01/char.model,results/tokenizers/exp01/char.vocab

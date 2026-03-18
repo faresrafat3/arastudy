@@ -1,0 +1,12 @@
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lrrrrrr}
+\toprule
+Tokenizer & Params & Val Loss & BPC & Best Step & Tok/s & VRAM (GB) \\
+\midrule
+bpe_32k & 37100032 & 4.404 & 1.704 & 12500 & 39297 & 2.826 \\nbpe_16k & 28908032 & 4.073 & 1.730 & 16500 & 46865 & 3.549 \\nmorph_bpe_16k & 28908032 & 3.476 & 1.760 & 10500 & 50298 & 1.956 \\nbpe_8k & 24812032 & 3.841 & 1.825 & 10500 & 52842 & 2.611 \\nmorph_bpe_8k & 24812032 & 3.323 & 1.830 & 13000 & 51584 & 2.640 \\nchar & 20812288 & 1.215 & 2.115 & 5500 & 70865 & 0.745 \\n\bottomrule
+\end{tabular}
+\caption{AraStudy Exp results sorted by corrected BPC (lower is better).}
+\label{tab:arastudy-exp-results}
+\end{table}

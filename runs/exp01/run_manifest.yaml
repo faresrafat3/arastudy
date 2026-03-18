@@ -1,0 +1,120 @@
+runs:
+  - id: bpe_32k_s42
+    experiment: exp01
+    tokenizer: bpe_32k
+    seed: 42
+    status: completed
+    best_val_loss: 4.403984
+    best_bpc: 1.703897
+    best_step: 12500
+    final_step: 14499
+    training_time_h: 3.3612
+    peak_vram_gb: 2.8258
+    tokens_per_sec: 39296.98
+    total_params: 37100032
+    hardware: RTX_4050
+    checkpoint: results/checkpoints/exp01_full/night1_bpe_32k/bpe_32k/best.pt
+    metrics_csv: results/logs/exp01_full/night1_bpe_32k/bpe_32k_metrics.csv
+    generation_md: results/logs/exp01_full/night1_bpe_32k/bpe_32k_generation.md
+    hf_model: faresrafat/AraStudy-BPE32K-37M
+    notes: ""
+
+  - id: bpe_16k_s42
+    experiment: exp01
+    tokenizer: bpe_16k
+    seed: 42
+    status: completed
+    best_val_loss: 4.072959
+    best_bpc: 1.729788
+    best_step: 16500
+    final_step: 18204
+    training_time_h: 0.0979
+    peak_vram_gb: 3.5490
+    tokens_per_sec: 46864.54
+    total_params: 28908032
+    hardware: RTX_4050
+    checkpoint: results/checkpoints/exp01_full/night1_bpe_16k/bpe_16k/best.pt
+    metrics_csv: results/logs/exp01_full/night1_bpe_16k/bpe_16k_metrics.csv
+    generation_md: results/logs/exp01_full/night1_bpe_16k/bpe_16k_generation.md
+    hf_model: faresrafat/AraStudy-BPE16K-29M
+    notes: "elapsed time reflects resumed segment in summary"
+
+  - id: morph_bpe_16k_s42
+    experiment: exp01
+    tokenizer: morph_bpe_16k
+    seed: 42
+    status: completed
+    best_val_loss: 3.476209
+    best_bpc: 1.759526
+    best_step: 10500
+    final_step: 12499
+    training_time_h: 2.2596
+    peak_vram_gb: 1.9561
+    tokens_per_sec: 50297.99
+    total_params: 28908032
+    hardware: RTX_4050
+    checkpoint: results/checkpoints/exp01_full/night2_morph_bpe_16k/morph_bpe_16k/best.pt
+    metrics_csv: results/logs/exp01_full/night2_morph_bpe_16k/morph_bpe_16k_metrics.csv
+    generation_md: results/logs/exp01_full/night2_morph_bpe_16k/morph_bpe_16k_generation.md
+    hf_model: ""
+    notes: ""
+
+  - id: bpe_8k_s42
+    experiment: exp01
+    tokenizer: bpe_8k
+    seed: 42
+    status: completed
+    best_val_loss: 3.841254
+    best_bpc: 1.824984
+    best_step: 10500
+    final_step: 12499
+    training_time_h: 2.1494
+    peak_vram_gb: 2.6110
+    tokens_per_sec: 52841.54
+    total_params: 24812032
+    hardware: RTX_4050
+    checkpoint: results/checkpoints/exp01_full/night2_bpe_8k/bpe_8k/best.pt
+    metrics_csv: results/logs/exp01_full/night2_bpe_8k/bpe_8k_metrics.csv
+    generation_md: results/logs/exp01_full/night2_bpe_8k/bpe_8k_generation.md
+    hf_model: ""
+    notes: ""
+
+  - id: morph_bpe_8k_s42
+    experiment: exp01
+    tokenizer: morph_bpe_8k
+    seed: 42
+    status: completed
+    best_val_loss: 3.322887
+    best_bpc: 1.829851
+    best_step: 13000
+    final_step: 14999
+    training_time_h: 2.6165
+    peak_vram_gb: 2.6403
+    tokens_per_sec: 51584.41
+    total_params: 24812032
+    hardware: RTX_4050
+    checkpoint: results/checkpoints/exp01_full/day1_local_morph8k/morph_bpe_8k/best.pt
+    metrics_csv: results/logs/exp01_full/day1_local_morph8k/morph_bpe_8k_metrics.csv
+    generation_md: results/logs/exp01_full/day1_local_morph8k/morph_bpe_8k_generation.md
+    hf_model: faresrafat/AraStudy-Morph8K-25M
+    notes: ""
+
+  - id: char_s42
+    experiment: exp01
+    tokenizer: char
+    seed: 42
+    status: completed
+    best_val_loss: 1.215111
+    best_bpc: 2.114531
+    best_step: 5500
+    final_step: 7499
+    training_time_h: 0.9743
+    peak_vram_gb: 0.7446
+    tokens_per_sec: 70864.78
+    total_params: 20812288
+    hardware: RTX_4050
+    checkpoint: results/checkpoints/exp01_full/night2_char/char/best.pt
+    metrics_csv: results/logs/exp01_full/night2_char/char_metrics.csv
+    generation_md: results/logs/exp01_full/night2_char/char_generation.md
+    hf_model: ""
+    notes: ""

@@ -214,6 +214,36 @@ def maybe_normalize_prompt(prompt: str, token_cfg: DictConfig, enabled: bool) ->
     )
 
 
+def append_research_log_entry(
+    run_id: str,
+    tokenizer_id: str,
+    summary: dict,
+    metrics_file: Path,
+    log_file: Path,
+) -> None:
+    if not log_file.exists():
+        return
+
+    tag = f"exp01_full::{run_id}::{tokenizer_id}"
+    existing = log_file.read_text(encoding="utf-8")
+    if tag in existing:
+        return
+
+    entry = (
+        "\n---\n\n"
+        f"### Auto Log — Exp01 Full ({run_id} / {tokenizer_id})\n\n"
+        f"Tag: `{tag}`\n\n"
+        f"- Date: `{time.strftime('%Y-%m-%d %H:%M:%S')}`\n"
+        f"- Best Val Loss: `{float(summary.get('best_val_loss', 0.0)):.6f}`\n"
+        f"- Best BPC: `{float(summary.get('best_bpc', 0.0)):.6f}`\n"
+        f"- Tokens Seen: `{int(summary.get('tokens_seen', 0))}`\n"
+        f"- Elapsed (sec): `{float(summary.get('elapsed_sec', 0.0)):.2f}`\n"
+        f"- Peak VRAM (GB): `{float(summary.get('peak_vram_gb', 0.0)):.4f}`\n"
+        f"- Metrics CSV: `{metrics_file}`\n"
+    )
+    log_file.write_text(existing + entry, encoding="utf-8")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Train full exp01 model")
     parser.add_argument(
@@ -487,6 +517,13 @@ def main() -> None:
     }
     summary_file.write_text(
         json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
+    append_research_log_entry(
+        run_id=args.run_id,
+        tokenizer_id=tokenizer_id,
+        summary=summary,
+        metrics_file=metrics_file,
+        log_file=Path("RESEARCH_LOG.md"),
     )
     print(f"[full] finished tokenizer={tokenizer_id} run_id={args.run_id}")
     print(f"[full] summary={summary_file}")

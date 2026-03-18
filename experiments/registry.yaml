@@ -1,0 +1,49 @@
+experiments:
+  - id: exp01
+    name: "Tokenization Impact Study"
+    status: completed
+    date_started: 2026-03-15
+    date_completed: 2026-03-17
+    hypothesis: "Tokenization strategy significantly affects Arabic tiny LM quality"
+    variables:
+      independent: [tokenizer_type, vocab_size, morphological_segmentation]
+      controlled: [architecture, data, seed, training_steps]
+      dependent: [val_loss, bpc, generation_quality]
+    results:
+      best_bpc: {tokenizer: bpe_32k, value: 1.704}
+      best_val_loss: {tokenizer: morph_bpe_8k, value: 3.323}
+      best_generation: {tokenizer: bpe_16k, score: 4.0}
+    key_findings:
+      - "BPC follows vocabulary size"
+      - "Morphology paradox: 14% loss improvement, 0% BPC improvement"
+      - "Three metrics give three different rankings"
+    artifacts:
+      models:
+        - "https://huggingface.co/faresrafat/AraStudy-BPE16K-29M"
+        - "https://huggingface.co/faresrafat/AraStudy-BPE32K-37M"
+        - "https://huggingface.co/faresrafat/AraStudy-Morph8K-25M"
+      dataset: "https://huggingface.co/datasets/faresrafat/arastudy-arabic-wikipedia-cleaned"
+      paper_draft: "papers/exp01_draft.pdf"
+      metrics: "results/logs/exp01_full/"
+    notes: "Single seed only - needs replication"
+
+  - id: exp02
+    name: "Multi-seed Statistical Replication"
+    status: planned
+    hypothesis: "Top tokenizers preserve ranking across seeds with tight variance"
+    notes: "Planned: seeds [42, 123, 2024] on bpe_16k, bpe_32k, morph_bpe_8k"
+
+  - id: exp03
+    name: "Fixed-Budget Comparison"
+    status: planned
+    hypothesis: "Equal-parameter budget changes tokenizer ranking"
+
+  - id: exp04
+    name: "Curriculum Learning Ablation"
+    status: planned
+    hypothesis: "Curriculum ordering improves convergence and generation quality"
+
+  - id: exp05
+    name: "AraStories Data Mixing"
+    status: planned
+    hypothesis: "High-quality synthetic stories improve coherence at tiny scale"

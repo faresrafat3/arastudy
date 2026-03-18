@@ -1,0 +1,18 @@
+{
+  "archive": "/home/fares/bug-hunter/artifacts/drive_upload/arastudy_phase2b_data.zip",
+  "mode": "full",
+  "size_bytes": 231311724,
+  "size_mb": 220.6,
+  "notes": "If mode=tokenizers_only, upload tokenizers first and keep splits on Drive separately.",
+  "files": {
+    "train.txt": "splits/phase2b/train.txt",
+    "valid.txt": "splits/phase2b/valid.txt",
+    "test.txt": "splits/phase2b/test.txt",
+    "bpe_16k.model": "tokenizers/phase2b/bpe_16k.model",
+    "bpe_16k.vocab": "tokenizers/phase2b/bpe_16k.vocab",
+    "bpe_32k.model": "tokenizers/phase2b/bpe_32k.model",
+    "bpe_32k.vocab": "tokenizers/phase2b/bpe_32k.vocab",
+    "morph_bpe_8k.model": "tokenizers/phase2b/morph_bpe_8k.model",
+    "morph_bpe_8k.vocab": "tokenizers/phase2b/morph_bpe_8k.vocab"
+  }
+}

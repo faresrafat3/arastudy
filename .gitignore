@@ -47,6 +47,10 @@ data/splits/
 # Generated outputs
 results/figures/
 
+# Cloud packaging artifacts
+artifacts/drive_upload/*.zip
+artifacts/_tmp_drive_pack/
+
 # System
 .DS_Store
 Thumbs.db

@@ -7,8 +7,8 @@ experiment:
 paths:
   split_dir: "data/splits/phase2b"
   tokenizer_dir: "results/tokenizers/phase2b"
-  output_dir: "results/checkpoints/exp02_multiseed"
-  log_dir: "results/logs/exp02_multiseed"
+  output_dir: "results/checkpoints/exp02"
+  log_dir: "results/logs/exp02"
   tokenization_config: "configs/experiments/exp01_phase2b_data.yaml"
 
 model:
@@ -29,7 +29,7 @@ training:
   betas: [0.9, 0.95]
   warmup_steps: 1000
   use_amp: true
-  early_stopping_patience_steps: 2000
+  early_stopping_patience: 5
   eval_max_batches: 80
 
 generation:

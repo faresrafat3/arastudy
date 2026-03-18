@@ -215,8 +215,10 @@ def maybe_normalize_prompt(prompt: str, token_cfg: DictConfig, enabled: bool) ->
 
 
 def append_research_log_entry(
+    experiment_name: str,
     run_id: str,
     tokenizer_id: str,
+    seed: int,
     summary: dict,
     metrics_file: Path,
     log_file: Path,
@@ -224,16 +226,17 @@ def append_research_log_entry(
     if not log_file.exists():
         return
 
-    tag = f"exp01_full::{run_id}::{tokenizer_id}"
+    tag = f"{experiment_name}::{run_id}::{tokenizer_id}::s{seed}"
     existing = log_file.read_text(encoding="utf-8")
     if tag in existing:
         return
 
     entry = (
         "\n---\n\n"
-        f"### Auto Log — Exp01 Full ({run_id} / {tokenizer_id})\n\n"
+        f"### Auto Log — {experiment_name} ({run_id} / {tokenizer_id})\n\n"
         f"Tag: `{tag}`\n\n"
         f"- Date: `{time.strftime('%Y-%m-%d %H:%M:%S')}`\n"
+        f"- Seed: `{seed}`\n"
         f"- Best Val Loss: `{float(summary.get('best_val_loss', 0.0)):.6f}`\n"
         f"- Best BPC: `{float(summary.get('best_bpc', 0.0)):.6f}`\n"
         f"- Tokens Seen: `{int(summary.get('tokens_seen', 0))}`\n"
@@ -251,12 +254,14 @@ def main() -> None:
     )
     parser.add_argument("--tokenizer-id", type=str, default=None)
     parser.add_argument("--run-id", type=str, default="run")
+    parser.add_argument("--seed", type=int, default=None)
     parser.add_argument("--resume", action="store_true")
     args = parser.parse_args()
 
     cfg = OmegaConf.load(args.config)
     token_cfg = cast(DictConfig, OmegaConf.load(cfg.paths.tokenization_config))
-    set_seed(int(cfg.experiment.seed))
+    seed = int(args.seed if args.seed is not None else cfg.experiment.seed)
+    set_seed(seed)
 
     tokenizer_id = args.tokenizer_id or str(cfg.run.tokenizer_id)
     prompt_file = OmegaConf.select(cfg, "generation.prompt_file")
@@ -319,7 +324,14 @@ def main() -> None:
     start_step = 0
     best_val_loss = float("inf")
     best_bpc = float("inf")
-    patience_steps = int(cfg.training.early_stopping_patience_steps)
+    patience_steps_cfg = OmegaConf.select(cfg, "training.early_stopping_patience_steps")
+    if patience_steps_cfg is not None:
+        patience_steps = int(patience_steps_cfg)
+    else:
+        patience_evals = int(
+            OmegaConf.select(cfg, "training.early_stopping_patience", default=4)
+        )
+        patience_steps = patience_evals * int(cfg.training.eval_every)
     last_improve_step = 0
 
     latest_ckpt = out_dir / "latest.pt"
@@ -519,8 +531,10 @@ def main() -> None:
         json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8"
     )
     append_research_log_entry(
+        experiment_name=str(cfg.experiment.name),
         run_id=args.run_id,
         tokenizer_id=tokenizer_id,
+        seed=seed,
         summary=summary,
         metrics_file=metrics_file,
         log_file=Path("RESEARCH_LOG.md"),
